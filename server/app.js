@@ -17,11 +17,15 @@ var count =1;
 
 io.on("connection", (socket) => {
   console.log("New client connected");
-  count++;
-  if (interval) {
-    //clearInterval(interval);
-  }
+  
+  socket.on("send", data => {
+      socket.broadcast.emit("broad",data);
+  })
+
   interval = setInterval(() => getApiAndEmit(socket), 1000);
+
+  
+
   socket.on("disconnect", () => {
     console.log("Client disconnected");
     clearInterval(interval);
